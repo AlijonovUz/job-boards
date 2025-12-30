@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->string('title', 50);
+            $table->string('slug', 255);
             $table->string('company', 100);
             $table->string('location', 100);
             $table->text('description');

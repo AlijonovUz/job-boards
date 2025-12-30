@@ -21,8 +21,9 @@
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">{{ $vacancy->title }}</h5>
-                            <p class="card-text">{{ $vacancy->company }} - {{ $vacancy->location }}</p>
-                            <a href="{{ route('vacancies.show', $vacancy->id) }}" class="btn btn-primary">View
+                            <p class="card-text">{{ $vacancy->created_at->format('d F, Y') }}</p>
+                            <a href="{{ route('vacancies.show', [$vacancy->id, $vacancy->slug]) }}"
+                               class="btn btn-primary">View
                                 Details</a>
                         </div>
                     </div>

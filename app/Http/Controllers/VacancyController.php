@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class VacancyController extends Controller
 {
@@ -14,11 +13,11 @@ class VacancyController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $vacancies = DB::table('vacancies')->
-        when($search, fn($s) => $s->whereLike('title', "%$search%"))->
-        orderByDesc('created_at')->
-        paginate(6)->
-        withQueryString();
+        $vacancies = Vacancy::query()
+            ->where('title', 'ILIKE', "%{$search}%")
+            ->orderByDesc('created_at')
+            ->paginate(6)
+            ->withQueryString();
 
         return view('index')->with('vacancies', $vacancies);
     }
@@ -36,24 +35,54 @@ class VacancyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $vacancy = Vacancy::create([
+            'title' => $request->title,
+            'company' => $request->company,
+            'location' => $request->location,
+            'description' => $request->description,
+            'user_id' => 1
+        ]);
+
+        return redirect()
+            ->route('vacancies.show', [
+                'id' => $vacancy->id,
+                'slug' => $vacancy->slug
+            ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id, string $slug)
     {
-        $vacancy = Vacancy::with('user')->findOrFail($id);
+        $vacancy = Vacancy::findOrFail($id);
+
+        if ($vacancy->slug !== $slug) {
+            return redirect()->route('vacancies.show', [
+                'id' => $vacancy->id,
+                'slug' => $vacancy->slug
+            ]);
+        }
+
+        $vacancy->loadMissing('user');
         return view('vacancies.show')->with('vacancy', $vacancy);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, int $id, string $slug)
     {
-        return view('vacancies.edit');
+        $vacancy = Vacancy::findOrFail($id);
+
+        if ($vacancy->slug !== $slug) {
+            return redirect()->route('vacancies.edit', [
+                'id' => $vacancy->id,
+                'slug' => $vacancy->slug
+            ]);
+        }
+
+        return view('vacancies.edit')->with('vacancy', $vacancy);
     }
 
     /**

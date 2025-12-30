@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail')
+@section('title', $vacancy->title)
 
 @section('main')
     <div class="container my-5">
@@ -12,14 +12,9 @@
                         <h2 class="card-title mb-3">{{ $vacancy->title }}</h2>
                         <p class="card-subtitle mb-4 text-muted">{{ $vacancy->user->name }}</p>
 
-                        <h5 class="mb-2">Company</h5>
+                        <h5 class="mb-2">Company & Location</h5>
                         <p class="card-text mb-4">
-                            {{ $vacancy->company }}
-                        </p>
-
-                        <h5 class="mb-2">Location</h5>
-                        <p class="card-text mb-4">
-                            {{ $vacancy->location }}
+                            {{ $vacancy->company }} - {{ $vacancy->location }}
                         </p>
 
                         <h5 class="mb-2">Job Description</h5>

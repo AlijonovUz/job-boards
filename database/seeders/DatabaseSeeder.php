@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Vacancy;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(5)->create();
-        Vacancy::factory(100)->create();
-
+        Vacancy::factory(50)->create();
     }
 }
