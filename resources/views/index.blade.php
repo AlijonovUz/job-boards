@@ -20,7 +20,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $vacancy->title }}</h5>
+                            <h5 class="card-title">{{ Str::limit($vacancy->title, 28) }}</h5>
                             <p class="card-text">{{ $vacancy->created_at->format('d F, Y') }}</p>
                             <a href="{{ route('vacancies.show', [$vacancy->id, $vacancy->slug]) }}"
                                class="btn btn-primary">View

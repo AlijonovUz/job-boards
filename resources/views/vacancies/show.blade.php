@@ -9,7 +9,29 @@
 
                 <div class="card detail-card p-4">
                     <div class="card-body">
-                        <h2 class="card-title mb-3">{{ $vacancy->title }}</h2>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="card-title mb-0">{{ $vacancy->title }}</h2>
+
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('vacancies.edit', [$vacancy->id, $vacancy->slug]) }}"
+                                   class="btn btn-outline-warning btn-sm"
+                                   title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="btn btn-outline-danger btn-sm"
+                                            title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
                         <p class="card-subtitle mb-4 text-muted">{{ $vacancy->user->name }}</p>
 
                         <h5 class="mb-2">Company & Location</h5>

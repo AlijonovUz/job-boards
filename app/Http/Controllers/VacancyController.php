@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VacancyRequest;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
 
@@ -33,15 +34,11 @@ class VacancyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VacancyRequest $request)
     {
-        $vacancy = Vacancy::create([
-            'title' => $request->title,
-            'company' => $request->company,
-            'location' => $request->location,
-            'description' => $request->description,
-            'user_id' => 1
-        ]);
+        $vacancy = Vacancy::create(
+            $request->validated() + ['user_id' => 1]
+        );
 
         return redirect()
             ->route('vacancies.show', [
@@ -88,16 +85,23 @@ class VacancyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(VacancyRequest $request, Vacancy $vacancy)
     {
-        //
+        $vacancy->update($request->validated());
+
+        return redirect()
+            ->route('vacancies.show', [
+                'id' => $vacancy->id,
+                'slug' => $vacancy->slug
+            ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Vacancy $vacancy)
     {
-        //
+        $vacancy->delete();
+        return redirect()->route('vacancies.index');
     }
 }

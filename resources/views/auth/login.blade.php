@@ -6,17 +6,11 @@
             <div class="col-lg-5">
                 <div class="card p-4 detail-card">
                     <h2 class="card-title mb-4">Login</h2>
-                    <form>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control form-control-lg" id="username"
-                                   placeholder="Enter username">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control form-control-lg" id="password"
-                                   placeholder="Enter password">
-                        </div>
+                    <form method="POST">
+                        @csrf
+                        <x-form.field name="username" type="text" label="Username" placeholder="Enter username"/>
+                        <x-form.field name="password" type="password" label="Password" placeholder="Enter password"/>
+
                         <button type="submit" class="btn btn-primary btn-lg w-100">Login</button>
                         <p class="text-center mt-3">Don't have an account? <a href="{{ route('register.index') }}">Register</a>
                         </p>
