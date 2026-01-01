@@ -5,16 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VacancyRequest;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class VacancyController extends Controller implements HasMiddleware
+class VacancyController extends Controller
 {
-    public static function middleware()
+    public function __construct()
     {
-        return [
-            new Middleware('auth', except: ['index', 'show']),
-        ];
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     public function index(Request $request)
@@ -42,6 +38,9 @@ class VacancyController extends Controller implements HasMiddleware
             ->route('vacancies.show', [
                 'id' => $vacancy->id,
                 'slug' => $vacancy->slug
+            ])->with('toast', [
+                'type' => "success",
+                'message' => "Vacancy created successfully"
             ]);
     }
 
@@ -63,6 +62,7 @@ class VacancyController extends Controller implements HasMiddleware
     public function edit(int $id, string $slug)
     {
         $vacancy = Vacancy::findOrFail($id);
+        $this->authorize('update', $vacancy);
 
         if ($vacancy->slug !== $slug) {
             return redirect()->route('vacancies.edit', [
@@ -76,18 +76,37 @@ class VacancyController extends Controller implements HasMiddleware
 
     public function update(VacancyRequest $request, Vacancy $vacancy)
     {
-        $vacancy->update($request->validated());
+        $this->authorize('update', $vacancy);
+
+        $vacancy->fill($request->validated());
+        $changed = false;
+        
+        $route = ['id' => $vacancy->id, 'slug' => $vacancy->slug];
+
+        if ($vacancy->isDirty()) {
+            $vacancy->save();
+            $changed = $vacancy->wasChanged();
+        }
 
         return redirect()
-            ->route('vacancies.show', [
-                'id' => $vacancy->id,
-                'slug' => $vacancy->slug
+            ->route('vacancies.show', $route)
+            ->with('toast', [
+                'type' => $changed ? 'success' : 'info',
+                'message' => $changed
+                    ? 'Vacancy updated successfully'
+                    : 'No changes were made',
             ]);
     }
 
     public function destroy(Vacancy $vacancy)
     {
+        $this->authorize('delete', $vacancy);
         $vacancy->delete();
-        return redirect()->route('vacancies.index');
+        return redirect()
+            ->route('vacancies.index')
+            ->with('toast', [
+                'type' => "success",
+                'message' => "Vacancy deleted successfully"
+            ]);
     }
 }

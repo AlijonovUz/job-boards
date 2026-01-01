@@ -9,7 +9,8 @@
 
 <div class="mb-3">
     @if($label)
-        <label for="{{ $name }}" class="form-label">{{ $label }}</label>
+        <label
+            for="{{ $name }}" {{ $attributes->class(['form-label', 'text-danger' => $errors->has($name)]) }}>{{ $label }}</label>
     @endif
 
     @if ($type === 'textarea')

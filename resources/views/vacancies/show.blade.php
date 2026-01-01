@@ -13,22 +13,29 @@
                             <h2 class="card-title mb-0">{{ $vacancy->title }}</h2>
 
                             <div class="d-flex gap-2">
-                                <a href="{{ route('vacancies.edit', [$vacancy->id, $vacancy->slug]) }}"
-                                   class="btn btn-outline-warning btn-sm"
-                                   title="Edit">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
+                                @can('update', $vacancy)
+                                    <a href="{{ route('vacancies.edit', [$vacancy->id, $vacancy->slug]) }}"
+                                       class="btn btn-outline-warning btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                       style="width:36px; height:36px;"
+                                       data-bs-toggle="tooltip"
+                                       title="Edit vacancy">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                @endcan
+                                @can('delete', $vacancy)
+                                    <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
 
-                                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit"
-                                            class="btn btn-outline-danger btn-sm"
-                                            title="Delete">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
+                                        <button type="submit"
+                                                class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                                style="width:36px; height:36px;"
+                                                data-bs-toggle="tooltip"
+                                                title="Delete vacancy">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                @endcan
                             </div>
                         </div>
 

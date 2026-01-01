@@ -14,12 +14,18 @@
 <!-- Navbar -->
 @include('components.navbar')
 
+<!-- Alert -->
+@include('components.alert')
+
 <!-- Main Content -->
-@yield('main')
+<main class="main">
+    @yield('main')
+</main>
 
 <!-- Footer -->
 @include('components.footer')
 
+<script src="{{ asset('assets/js/app.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

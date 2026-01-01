@@ -9,13 +9,26 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.index') }}">Home</a></li>
                 @auth
                     <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.create') }}">Add Job</a></li>
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link">
-                                Logout
-                            </button>
-                        </form>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                            Profile
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-profile">
+                            <li><a class="dropdown-item" href="{{ route('profile') }}">My profile</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Edit
+                                    profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="dropdown-item text-danger">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 @endauth
 
