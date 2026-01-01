@@ -7,9 +7,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.index') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.create') }}">Add Job</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('login.index') }}">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('register.index') }}">Register</a></li>
+                @auth
+                    <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.create') }}">Add Job</a></li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @endauth
+
+                @guest
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register.index') }}">Register</a></li>
+                @endguest
             </ul>
         </div>
     </div>

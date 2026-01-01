@@ -11,5 +11,17 @@ Route::get('/vacancies/{id}-{slug}/edit', [VacancyController::class, 'edit'])->n
 Route::resource('vacancies', VacancyController::class)
     ->except(['show', 'edit']);
 
-Route::resource('login', LoginController::class);
-Route::resource('register', RegisterController::class);
+Route::post('auth/logout', [LoginController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
+
+Route::get('auth/login', [LoginController::class, 'index'])
+    ->middleware('guest')
+    ->name('login');
+
+Route::post('auth/login', [LoginController::class, 'store'])
+    ->middleware('guest')
+    ->name('login.store');
+
+Route::resource('auth/register', RegisterController::class)
+    ->middleware('guest');

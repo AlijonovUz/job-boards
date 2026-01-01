@@ -11,7 +11,7 @@ class VacancyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -22,10 +22,21 @@ class VacancyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => "required|min:5|max:50",
-            'company' => "required|min:5|max:100",
-            'location' => "required|min:5|max:100",
-            'description' => "required|min:10",
+            'title' => ["required", "min:5", "max:50"],
+            'company' => ["required", "min:5", "max:100"],
+            'location' => ["required", "min:5", "max:100"],
+            'description' => ["required", "min:10"]
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated($key, $default);
+
+        if ($this->isMethod('POST') && auth()->check()) {
+            $validated['user_id'] = auth()->id();
+        }
+
+        return $validated;
     }
 }

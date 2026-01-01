@@ -10,7 +10,7 @@
                     <h2 class="card-title mb-4">Add New Job</h2>
                     <form method="POST" action="{{ route('vacancies.update', $vacancy) }}">
                         @csrf
-                        @method('PATCH')
+                        @method('PUT')
                         <x-form.field name="title" label="Job Title" placeholder="Enter job title" type="text"
                                       :value="$vacancy->title"/>
                         <x-form.field name="company" label="Company" placeholder="Enter company name" type="text"

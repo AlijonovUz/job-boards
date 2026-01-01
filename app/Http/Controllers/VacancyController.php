@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\VacancyRequest;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class VacancyController extends Controller
+class VacancyController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth', except: ['index', 'show']),
+        ];
+    }
+
     public function index(Request $request)
     {
         $search = $request->query('search');
@@ -23,22 +29,14 @@ class VacancyController extends Controller
         return view('index')->with('vacancies', $vacancies);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('vacancies.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(VacancyRequest $request)
     {
-        $vacancy = Vacancy::create(
-            $request->validated() + ['user_id' => 1]
-        );
+        $vacancy = Vacancy::create($request->validated());
 
         return redirect()
             ->route('vacancies.show', [
@@ -47,9 +45,6 @@ class VacancyController extends Controller
             ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id, string $slug)
     {
         $vacancy = Vacancy::findOrFail($id);
@@ -65,10 +60,7 @@ class VacancyController extends Controller
         return view('vacancies.show')->with('vacancy', $vacancy);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Request $request, int $id, string $slug)
+    public function edit(int $id, string $slug)
     {
         $vacancy = Vacancy::findOrFail($id);
 
@@ -82,9 +74,6 @@ class VacancyController extends Controller
         return view('vacancies.edit')->with('vacancy', $vacancy);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(VacancyRequest $request, Vacancy $vacancy)
     {
         $vacancy->update($request->validated());
@@ -96,9 +85,6 @@ class VacancyController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Vacancy $vacancy)
     {
         $vacancy->delete();
