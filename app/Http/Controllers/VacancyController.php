@@ -80,7 +80,7 @@ class VacancyController extends Controller
 
         $vacancy->fill($request->validated());
         $changed = false;
-        
+
         $route = ['id' => $vacancy->id, 'slug' => $vacancy->slug];
 
         if ($vacancy->isDirty()) {
