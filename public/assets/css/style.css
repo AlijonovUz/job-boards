@@ -293,3 +293,23 @@ form input[type="search"]:focus {
     right: 16px;
     left: auto;
 }
+
+/* Notification badge FIX */
+.notification-link {
+    position: relative !important;
+}
+
+.notification-link .badge {
+    top: 2px !important;
+    left: 18px !important;
+    transform: none !important;
+}
+
+@media (max-width: 576px) {
+    .notification-link .badge {
+        left: 16px !important;
+        top: 4px !important;
+    }
+}
+
+

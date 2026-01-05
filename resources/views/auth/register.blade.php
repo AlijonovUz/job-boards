@@ -14,6 +14,29 @@
                         <x-form.field name="password_confirmation" type="password" label="Confirm Password"
                                       placeholder="Enter confirm password"/>
 
+                        <div class="mb-4">
+                            <label class="form-label">I am here to</label>
+
+                            <div class="d-flex gap-4">
+                                <x-form.radio
+                                    name="role"
+                                    value="job_seeker"
+                                    label="Find a job"
+                                    :checked="true"
+                                />
+
+                                <x-form.radio
+                                    name="role"
+                                    value="employer"
+                                    label="Post a job"
+                                />
+                            </div>
+                            
+                            @error('role')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
                         <p class="text-center mt-3">Already have an account? <a class="text-decoration-none"
                                                                                 href="{{ route('login') }}">Login</a>

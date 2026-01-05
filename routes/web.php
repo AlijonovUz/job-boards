@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
@@ -38,3 +39,6 @@ Route::put('/profile/edit', [UserController::class, 'update'])
     ->name('profile.update');
 Route::delete('/profile/delete', [UserController::class, 'destroy'])
     ->name('profile.delete');
+
+// Mail
+Route::resource('mail', MailController::class);
