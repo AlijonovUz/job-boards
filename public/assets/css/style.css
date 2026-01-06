@@ -312,4 +312,23 @@ form input[type="search"]:focus {
     }
 }
 
+@keyframes slideInBounce {
+    0% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(-10%);
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(5%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
 
+.toast-animate {
+    animation: slideInBounce 0.6s ease-out;
+}

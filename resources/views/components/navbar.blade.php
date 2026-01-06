@@ -7,16 +7,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 @auth
-                    <li class="nav-item dropdown me-2">
+                    <li class="nav-item dropdown">
                         <a class="nav-link position-relative notification-link"
                            href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-bell fs-5"></i>
 
-                            <span
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                style="transform: translate(-50%, -30%); top: 6px;">
-                                3
+                            @if($unreadCount > 0)
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    style="transform: translate(-50%, -30%); top: 6px;">
+                                {{ $unreadCount }}
                             </span>
+                            @endif
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-profile p-2" style="width: 320px">
@@ -24,33 +26,39 @@
                                 Notifications
                             </li>
 
-                            <li>
-                                <a class="dropdown-item small fw-bold" href="#">
-                                    Vacancy yaratildi
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item small" href="#">
-                                    Vacancy yangilandi
-                                </a>
-                            </li>
+                            @forelse($notifications as $notification)
+                                <li>
+                                    <form method="POST" action="{{ route('notifications.read', $notification->id) }}">
+                                        @csrf
+                                        <button class="dropdown-item small fw-bold">
+                                            {{ $notification->data['message'] }}
+                                        </button>
+                                    </form>
+                                </li>
+                            @empty
+                                <li class="text-center text-muted small">
+                                    Notifications not found
+                                </li>
+                            @endforelse
 
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
 
                             <li>
-                                <a class="dropdown-item text-center" href="#">
-                                    Mark all as read
-                                </a>
+                                <form method="POST" action="{{ route('notifications.readAll') }}">
+                                    @csrf
+                                    <button class="dropdown-item text-center">
+                                        Mark all as read
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </li>
                     @can('create', \App\Models\Vacancy::class)
                         <li class="nav-item"><a class="nav-link" href="{{ route('vacancies.create') }}">Add Job</a></li>
                     @endif
-                
+
                     @can('create', \App\Models\Mail::class)
                         <li class="nav-item"><a class="nav-link" href="{{ route('mail.create') }}">Send Message</a></li>
                     @endcan

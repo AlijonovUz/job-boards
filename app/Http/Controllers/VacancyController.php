@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VacancyCreated;
 use App\Http\Requests\VacancyRequest;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class VacancyController extends Controller
     public function store(VacancyRequest $request)
     {
         $vacancy = Vacancy::create($request->validated());
+        event(new VacancyCreated($vacancy));
 
         return redirect()
             ->route('vacancies.show', [

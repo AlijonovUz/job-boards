@@ -13,7 +13,7 @@ class MailCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mail;
+    public Mail $mail;
 
     public function __construct(Mail $mail)
     {

@@ -9,6 +9,29 @@
             <h3 class="mb-1">{{ $user->name }}</h3>
             <p class="text-muted mb-1">{{ $user->email }}</p>
             <small class="text-secondary">Joined: {{ $user->created_at->format('d F, Y') }}</small>
+
+            <div class="mt-2">
+                @switch($user->role)
+                    @case('admin')
+                        <span class="badge bg-danger">
+                <i class="bi bi-shield-lock-fill me-1"></i> Admin
+            </span>
+                        @break
+
+                    @case('employer')
+                        <span class="badge bg-primary">
+                <i class="bi bi-briefcase-fill me-1"></i> Employer
+            </span>
+                        @break
+
+                    @case('job_seeker')
+                        <span class="badge bg-success">
+                <i class="bi bi-person-fill me-1"></i> Job Seeker
+            </span>
+                        @break
+                @endswitch
+            </div>
+
         </div>
 
         <h4 class="mb-4 fw-bold">My Vacancies</h4>

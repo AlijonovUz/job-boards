@@ -13,7 +13,7 @@
 
     <div class="toast-container position-fixed end-0 p-4"
          style="top: 90px; z-index: 1080;">
-        <div class="toast show align-items-center text-bg-{{ $type }} border-0 shadow"
+        <div class="toast show align-items-center text-bg-{{ $type }} border-0 shadow toast-animate"
              role="alert" aria-live="assertive" aria-atomic="true"
              style="border-radius:12px;">
             <div class="d-flex">

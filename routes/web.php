@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
@@ -42,3 +43,7 @@ Route::delete('/profile/delete', [UserController::class, 'destroy'])
 
 // Mail
 Route::resource('mail', MailController::class);
+
+// Notifications
+Route::post('/notifications/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
+Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.readAll');
