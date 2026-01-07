@@ -36,21 +36,20 @@ Route::prefix('auth')->group(function () {
         Route::resource('register', RegisterController::class)
             ->only(['index', 'store']);
     });
-});
 
-// Verification
-Route::middleware(['auth', 'unverified'])->group(function () {
+    Route::middleware(['auth', 'unverified'])->group(function () {
 
-    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
-        ->name('verification.notice');
+        Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+            ->name('verification.notice');
 
-    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+        Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+            ->middleware(['signed', 'throttle:6,1'])
+            ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
+        Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])
+            ->middleware('throttle:6,1')
+            ->name('verification.send');
+    });
 });
 
 // User
