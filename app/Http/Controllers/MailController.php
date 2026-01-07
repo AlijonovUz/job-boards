@@ -8,6 +8,12 @@ use App\Models\Mail;
 
 class MailController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     public function create()
     {
         return view('mails.send-message');
