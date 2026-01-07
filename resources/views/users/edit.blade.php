@@ -69,35 +69,34 @@
             <div class="mt-5 pt-4 border-top">
 
                 <div class="p-4 rounded-4"
-                     style="background: linear-gradient(135deg, #fff5f5, #ffe3e3);
-                box-shadow: inset 0 0 0 1px rgba(220,53,69,.25);">
+                     style="
+            background: linear-gradient(135deg, #fff5f5, #ffe3e3);
+            box-shadow: inset 0 0 0 1px rgba(220,53,69,.25);
+         ">
 
-                    <h6 class="fw-bold text-danger mb-2">
-                        <i class="bi bi-exclamation-octagon-fill me-2"></i>
+                    <h6 class="fw-bold text-danger mb-2 d-flex align-items-center">
+                        <i class="bi bi-exclamation-octagon-fill me-2 fs-5"></i>
                         Danger Zone
                     </h6>
 
-                    <p class="text-danger small mb-3">
-                        This action is irreversible. All your data will be permanently deleted.
+                    <p class="text-danger small mb-4">
+                        This action is irreversible. Once your account is deleted,
+                        all associated data will be permanently removed.
                     </p>
 
-                    <form method="POST" action="{{ route('profile.delete') }}"
-                          onsubmit="return confirm('Are you absolutely sure? This action cannot be undone.')">
+                    <form method="POST" action="{{ route('profile.delete') }}">
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit" class="btn btn-danger px-4">
-                            <i class="bi bi-trash-fill me-2"></i>
+                        <button type="submit"
+                                class="btn btn-danger px-4 py-2 rounded-pill d-inline-flex align-items-center gap-2">
+                            <i class="bi bi-trash-fill"></i>
                             Delete Account
                         </button>
                     </form>
 
                 </div>
-
             </div>
-
-
         </div>
-
     </div>
 @endsection

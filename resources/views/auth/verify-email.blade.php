@@ -20,13 +20,6 @@
                         Please check your inbox and click the link to verify your account.
                     </p>
 
-                    @if (session('status') === 'verification-link-sent')
-                        <div class="alert alert-success mt-3">
-                            <i class="bi bi-check-circle me-1"></i>
-                            A new verification link has been sent to your email address.
-                        </div>
-                    @endif
-
                     <form method="POST" action="{{ route('verification.send') }}" class="mt-4">
                         @csrf
                         <button class="btn btn-primary w-100">
